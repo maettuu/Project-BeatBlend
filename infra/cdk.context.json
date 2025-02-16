@@ -1,0 +1,11 @@
+{
+  "availability-zones:account=941377127155:region=eu-central-2": [
+    "eu-central-2a",
+    "eu-central-2b",
+    "eu-central-2c"
+  ],
+  "hosted-zone:account=941377127155:domainName=beatblend.ch:region=eu-central-2": {
+    "Id": "/hostedzone/Z0697330151AAEL5Z02U5",
+    "Name": "beatblend.ch."
+  }
+}
