@@ -69,7 +69,7 @@ Below is the complete list of environment variables required for running the Bea
 #### Spotify API
 - `SPOTIFY_CLIENT_ID`: The client ID for your Spotify Developer application. Obtain this from the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
 - `SPOTIFY_CLIENT_SECRET`: The client secret for your Spotify Developer application. Obtain this from the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
-- `SPOTIFY_REDIRECT_URI`: The URI where Spotify will redirect after user authentication. **Default:** `http://127.0.0.1:8080/spotify-callback`. (localhost is no longer allowed by Spotify)
+- `SPOTIFY_REDIRECT_URI`: The URI where Spotify will redirect after user authentication. Make sure to also add it to your Spotify Developer Dashboard. **Default:** `http://127.0.0.1:8080/spotify-callback` (localhost is no longer allowed).
 
 #### JWT (Authentication)
 - `JWT_SECRET_KEY`: A secure key used to sign and verify JWT tokens. **Default:** `test`. Replace this with a strong, secure key in production.
