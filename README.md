@@ -67,9 +67,9 @@ git clone https://github.com/SpotifyMasterProject/BeatBlend.git
 Below is the complete list of environment variables required for running the BeatBlend application. Each variable is explained in detail, including its purpose and default value (if applicable). Variables with default values should not be changed unless specifically required.
 
 #### Spotify API
-- `SPOTIFY_CLIENT_ID`: The client ID for your Spotify Developer application. Obtain this from the Spotify Developer Dashboard.
-- `SPOTIFY_CLIENT_SECRET`: The client secret for your Spotify Developer application. Obtain this from the Spotify Developer Dashboard.
-- `SPOTIFY_REDIRECT_URI`: The URI where Spotify will redirect after user authentication. **Default:** `http://localhost:8080/spotify-callback`.
+- `SPOTIFY_CLIENT_ID`: The client ID for your Spotify Developer application. Obtain this from the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+- `SPOTIFY_CLIENT_SECRET`: The client secret for your Spotify Developer application. Obtain this from the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+- `SPOTIFY_REDIRECT_URI`: The URI where Spotify will redirect after user authentication. **Default:** `http://127.0.0.1:8080/spotify-callback`. (localhost is no longer allowed by Spotify)
 
 #### JWT (Authentication)
 - `JWT_SECRET_KEY`: A secure key used to sign and verify JWT tokens. **Default:** `test`. Replace this with a strong, secure key in production.
@@ -90,7 +90,7 @@ Below is the complete list of environment variables required for running the Bea
 
 #### Discogs API
 - `DISCOGS_API_URL`: The base URL for the Discogs API. **Default:** `https://api.discogs.com/database/search`.
-- `DISCOGS_API_TOKEN`: Your personal Discogs API token for accessing their database. Obtain this from the Discogs Developer Portal.
+- `DISCOGS_API_TOKEN`: Your personal Discogs API token for accessing their database. Obtain this from the [Discogs Developer Portal](https://www.discogs.com/settings/developers).
 
 #### Application URLs
 - `BASE_URL`: The base URL of your application. **Default:** `http://localhost:8080`.
@@ -103,7 +103,7 @@ Below is an example `.env` file with placeholders for required values:
 ```env
 SPOTIFY_CLIENT_ID=<your_spotify_client_id>
 SPOTIFY_CLIENT_SECRET=<your_spotify_client_secret>
-SPOTIFY_REDIRECT_URI=http://localhost:8080/spotify-callback
+SPOTIFY_REDIRECT_URI=http://127.0.0.1:8080/spotify-callback
 JWT_SECRET_KEY=test
 JWT_ALGORITHM=HS256
 JWT_EXPIRE_MINUTES=720
@@ -126,19 +126,24 @@ WS_BASE_URL=ws://localhost:8000
 
 Follow these steps to initialize and run the BeatBlend application.
 
-#### Step 1: Build the Docker Images
+#### Step 1: Populate Environment Variables
+Duplicate the file `.env.example` and rename it to `.env`. Before building the Docker image, make sure you have assigned all of the environment variables. Generate the required tokens as described [above](#environment-variables).
 
+#### Step 2: Download the Song Database
+The files `alt_songs.dump` and `songs.dump` are too big for normal cloning and require Git LFS (which is disabled). Download the database files [here](https://mylaeus.cloud/index.php/s/N6gzPyfdFeCyksN) and replace them with the dummy files in the `./server/db/` directory.
+
+#### Step 3: Build the Docker Images
 Before running the application for the first time, or if you have modified any Docker configuration files, you need to build the Docker images. Run `docker compose build`. If you encounter caching issues or suspect outdated dependencies, rebuild the images without cache `docker compose build --no-cache`.
 
-#### Step 2: Start the PostgreSQL Database
-Next, start the postgres database by running `docker compose up postgres`. Wait for the database to initialize. This will load the database dump file and set up the necessary tables and data. Once the initialization is complete, stop the database service by pressing Ctrl + C in the terminal.
+#### Step 4: Start the PostgreSQL Database
+Next, start the postgres database by running `docker compose up postgres`. Wait for the database to initialize. This will load the database dump file and set up the necessary tables and data. Once the initialization is complete, stop the database service by pressing Ctrl + C in the terminal. If you get a `permission denied` error with `exit code: 126`, make sure the file `init-dump.sh` in the `./server/db/` is executable. If necessary, update this using `chmod +x ./server/db/init-dump.sh`. Delete the created Docker volume and try again.
 
-#### Step 3: Start the Entire Application
+#### Step 5: Start the Entire Application
 Start all required services (frontend, backend, and database) with `docker compose up`. Wait for the containers to fully initialize. The application will now be available at:
 - Frontend: http://localhost:8080
 - Backend: http://localhost:8000
 
-#### Step 4: Stop the Application
+#### Step 6: Stop the Application
 To stop the application, press `Ctrl + C` in the terminal running the Docker services.
 
 ## Illustrations
